@@ -6,7 +6,7 @@ Flask Debug Toolbar MongoDB Panel
        MongoDB debugging information
 :Author: Bruno Carlin (http://github.com/bcarlin, http://twitter.com/brunocarlin)
 
-.. Flask-DebugToolbar:: http://flask-debugtoolbar.rtfd.org/
+.. _Flask-DebugToolbar: http://flask-debugtoolbar.rtfd.org/
 
 History
 =======

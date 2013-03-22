@@ -18,9 +18,8 @@ setup(
         'Flask-DebugToolbar',
     ],
     classifiers=[
-        'Development Status :: 4 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
-        'Framework :: Flask',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

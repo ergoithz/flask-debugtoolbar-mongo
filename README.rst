@@ -2,12 +2,11 @@
 Flask Debug Toolbar MongoDB Panel
 ==================================
 
-:Info: An extension panel for Matt Good's `flask_debugtoolbar`_ that adds
+:Info: An extension panel for Matt Good's `Flask-DebugToolbar`_ that adds
        MongoDB debugging information
 :Author: Bruno Carlin (http://github.com/bcarlin, http://twitter.com/brunocarlin)
 
-
-.. flask_debugtoolbar:: http://flask-debugtoolbar.rtfd.org/
+.. Flask-DebugToolbar:: http://flask-debugtoolbar.rtfd.org/
 
 History
 =======
@@ -23,6 +22,15 @@ Here is a clean port that I intend to maintain current with Harry Marr's
 original work, and occasionnally augment with new features if needed.
 
 All the thanks go to Harry!
+
+.. warning::
+   This package is still at an early stage. While it works, it is not
+   yet complete and its reports are not exhaustives.
+
+   If you want to help improve it, you are the most welcome to do so.
+   Just fork the repository on
+   `Github <https://github.com/bcarlin/flask-debugtoolbar-mongo>`__ and
+   send your pull requests !
 
 Setup
 =====
@@ -63,7 +71,7 @@ profiling enabled for the `hello_world`::
             'flask_debugtoolbar.panels.logger.LoggingPanel',
             'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
             # Add the MongoDB panel
-            'flask_debugtoolbar_mongo.panels.MongoDebugPanel',
+            'flask_debugtoolbar_mongo.panel.MongoDebugPanel',
         ]
         toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 

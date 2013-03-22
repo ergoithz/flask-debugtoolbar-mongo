@@ -21,6 +21,9 @@ app.config['DEBUG_TB_PANELS'] = (
     'flask_debugtoolbar.panels.logger.LoggingPanel',
     'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
 )
+app.config['DEBUG_TB_MONGO'] = {
+     'HIDE_FLASK_FROM_STACKTRACES': False
+}
 DebugToolbarExtension(app)
 
 conn = pymongo.Connection()

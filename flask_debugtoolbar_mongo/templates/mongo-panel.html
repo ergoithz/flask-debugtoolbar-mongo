@@ -76,7 +76,7 @@ table.mongo-op-table tbody {
                         {% for line in query.stack_trace %}
                             <tr>
                                 <td class="lineno">{{ line.1 }}</td>
-                                <td class="file">{{ line.0|embolden_file }}</td>
+                                <td class="file">{{ line.0|embolden_file|safe }}</td>
                                 <td class="function">{{ line.2 }}</td>
                                 <td class="code">{{ line.3|highlight("python")|safe }}</td>
                             </tr>
@@ -128,7 +128,7 @@ table.mongo-op-table tbody {
                         {% for line in insert.stack_trace %}
                             <tr>
                                 <td class="lineno">{{ line.1 }}</td>
-                                <td class="file">{{ line.0|embolden_file }}</td>
+                                <td class="file">{{ line.0|embolden_file|safe }}</td>
                                 <td class="function">{{ line.2 }}</td>
                                 <td class="code">{{ line.3|highlight("python")|safe }}</td>
                             </tr>
@@ -188,7 +188,7 @@ table.mongo-op-table tbody {
                         {% for line in update.stack_trace %}
                             <tr>
                                 <td class="lineno">{{ line.1 }}</td>
-                                <td class="file">{{ line.0|embolden_file }}</td>
+                                <td class="file">{{ line.0|embolden_file|safe }}</td>
                                 <td class="function">{{ line.2 }}</td>
                                 <td class="code">{{ line.3|highlight("python")|safe }}</td>
                             </tr>
@@ -240,7 +240,7 @@ table.mongo-op-table tbody {
                         {% for line in remove.stack_trace %}
                             <tr>
                                 <td class="lineno">{{ line.1 }}</td>
-                                <td class="file">{{ line.0|embolden_file }}</td>
+                                <td class="file">{{ line.0|embolden_file|safe }}</td>
                                 <td class="function">{{ line.2 }}</td>
                                 <td class="code">{{ line.3|highlight("python")|safe }}</td>
                             </tr>

@@ -1,20 +1,9 @@
-from django.template import Template, Context
-from django.template.loader import render_to_string
-from django.utils.safestring import mark_safe
+from flask_debugtoolbar.panels import DebugPanel
+import jinja2
+from . import operation_tracker
+from . import jinja_filters
 
-from debug_toolbar.panels import DebugPanel
 
-import operation_tracker
-
-_NAV_SUBTITLE_TPL = u'''
-{% for o, n, t in operations %}
-    {{ n }} {{ o }}{{ n|pluralize }} in {{ t }}ms<br/>
-
-    {% if forloop.last and forloop.counter0 %}
-        {{ count }} operation{{ count|pluralize }} in {{ time }}ms
-    {% endif %}
-{% endfor %}
-'''
 
 class MongoDebugPanel(DebugPanel):
     """Panel that shows information about MongoDB operations.
@@ -24,6 +13,16 @@ class MongoDebugPanel(DebugPanel):
 
     def __init__(self, *args, **kwargs):
         super(MongoDebugPanel, self).__init__(*args, **kwargs)
+        self.jinja_env.loader = jinja2.ChoiceLoader([
+            self.jinja_env.loader,
+            jinja2.PrefixLoader({
+                'debug_tb_mongo': jinja2.PackageLoader(__name__, 'templates')
+            })
+        ])
+        filters = ('format_stack_trace', 'embolden_file', 'format_dict',
+                   'highlight', 'pluralize')
+        for jfilter in filters:
+            self.jinja_env.filters[jfilter] = getattr(jinja_filters, jfilter)
         operation_tracker.install_tracker()
 
     def process_request(self, request):
@@ -52,13 +51,12 @@ class MongoDebugPanel(DebugPanel):
             ctx['time'] += sum(x['time'] for x in operation_tracker.updates)
 
         if operation_tracker.removes:
-            ctx['operations'].append(fun('remove', operation_tracker.removes))
+            ctx['operations'].append(fun('delete', operation_tracker.removes))
             ctx['count'] += len(operation_tracker.removes)
             ctx['time'] += sum(x['time'] for x in operation_tracker.removes)
 
         ctx['time'] = '%.2f' % ctx['time']
-
-        return mark_safe(Template(_NAV_SUBTITLE_TPL).render(Context(ctx)))
+        return self.render('debug_tb_mongo/mongo-panes-subtitle.html', ctx)
 
     def title(self):
         return 'MongoDB Operations'
@@ -72,6 +70,4 @@ class MongoDebugPanel(DebugPanel):
         context['inserts'] = operation_tracker.inserts
         context['updates'] = operation_tracker.updates
         context['removes'] = operation_tracker.removes
-        return render_to_string('mongo-panel.html', context)
-
-
+        return self.render('debug_tb_mongo/mongo-panel.html', context)

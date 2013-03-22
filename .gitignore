@@ -2,3 +2,6 @@
 .tox
 *.egg-info
 *.egg
+fdtm.sublime-project
+fdtm.sublime-workspace
+dist/

@@ -1,34 +1,83 @@
 ==================================
-Django Debug Toolbar MongoDB Panel
+Flask Debug Toolbar MongoDB Panel
 ==================================
-:Info: An extension panel for Rob Hudson's Django Debug Toolbar that adds
+
+:Info: An extension panel for Matt Good's `flask_debugtoolbar`_ that adds
        MongoDB debugging information
-:Author: Harry Marr (http://github.com/hmarr, http://twitter.com/harrymarr)
+:Author: Bruno Carlin (http://github.com/bcarlin, http://twitter.com/brunocarlin)
+
+
+.. flask_debugtoolbar:: http://flask-debugtoolbar.rtfd.org/
+
+History
+=======
+
+This is a port of the MongoDB addon to the Django Debug Toolbar written
+by Harry Marr (http://github.com/hmarr, http://twitter.com/harrymarr).
+
+There existed another port (https://github.com/cenkalti/flask-debug-toolbar-mongo)
+that was neither up-to-date nor operational (there are still imports
+from django).
+
+Here is a clean port that I intend to maintain current with Harry Marr's
+original work, and occasionnally augment with new features if needed.
+
+All the thanks go to Harry!
 
 Setup
 =====
-Add the following lines to your ``settings.py``::
 
-   INSTALLED_APPS = (
-       ...
-       'debug_toolbar_mongo',
-       ...
-   )
+First, you need to get the package. Install it with pip:
 
-   DEBUG_TOOLBAR_PANELS = (
-       ...
-       'debug_toolbar_mongo.panel.MongoDebugPanel',
-       ...
-   )
+::
 
-An extra panel titled "MongoDB" should appear in your debug toolbar.
+    pip install flask-debugtoolbar-mongo
 
-Note that this should work with any Django application that uses PyMongo.
+Somewhere after you've set ``app.debug = True`` and before ``app.run``, you need
+to specify the ``flask_debugtoolbar`` panels that you want to use and include
+``'flask_debugtoolbar_mongo.panels.MongoDebugPanel'`` in that list.
 
-Obtaining stack traces can slow down queries significantly. To turn them off
-add the following lines to your ``settings.py``::
+For example, here's a small flask app with the panel installed and with line
+profiling enabled for the `hello_world`::
 
-    DEBUG_TOOLBAR_MONGO_STACKTRACES = False
+    from flask import Flask
+    app = Flask(__name__)
 
-Disclaimer: only tested in latest Chrome, may fall to pieces in other browers.
-If you feel like fixing it, contributions are welcome!
+    import flask_debugtoolbar
+
+    @app.route('/')
+    def hello_world():
+        return 'Hello World')
+
+    if __name__ == '__main__':
+        app.debug = True
+
+        # Specify the debug panels you want
+        app.config['DEBUG_TB_PANELS'] = [
+            'flask_debugtoolbar.panels.versions.VersionDebugPanel',
+            'flask_debugtoolbar.panels.timer.TimerDebugPanel',
+            'flask_debugtoolbar.panels.headers.HeaderDebugPanel',
+            'flask_debugtoolbar.panels.request_vars.RequestVarsDebugPanel',
+            'flask_debugtoolbar.panels.template.TemplateDebugPanel',
+            'flask_debugtoolbar.panels.sqlalchemy.SQLAlchemyDebugPanel',
+            'flask_debugtoolbar.panels.logger.LoggingPanel',
+            'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
+            # Add the MongoDB panel
+            'flask_debugtoolbar_mongo.panels.MongoDebugPanel',
+        ]
+        toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
+
+        app.run()
+
+
+``Flask-debugtoolbar-mongo`` accepts the following configration options::
+
+  app.config['DEBUG_TB_MONGO'] = {
+    'SHOW_STACKTRACES' = True
+    'HIDE_FLASK_FROM_STACKTRACES' = True
+  }
+
+``SHOW_STACKTRACES``
+   Obtaining stack traces can slow down queries significantly. You can
+   turn them off by setting this option to ``False``.
+* ``HIDE_FLASK_FROM_STACKTRACES``: Hides Flask calls from the stacktrace.

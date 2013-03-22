@@ -1,13 +1,19 @@
-from django import template
-from django.utils.html import escape
-from django.utils.safestring import mark_safe
-
+from jinja2 import escape
 import pprint
 import os
 
-register = template.Library()
 
-@register.filter
+def pluralize(word, count):
+    if count <= 1:
+        return word
+    else:
+        return word + 's'
+    # if end_ptr and str.endswith(end_ptr):
+    #     return str[:-1*len(end_ptr)]+rep_ptr
+    # else:
+    #     return str+'s'
+
+
 def format_stack_trace(value):
     stack_trace = []
     fmt = (
@@ -18,18 +24,18 @@ def format_stack_trace(value):
     for frame in value:
         params = map(escape, frame[0].rsplit('/', 1) + list(frame[1:]))
         stack_trace.append(fmt.format(*params))
-    return mark_safe('\n'.join(stack_trace))
+    return '\n'.join(stack_trace)
 
-@register.filter
+
 def embolden_file(path):
     head, tail = os.path.split(escape(path))
-    return mark_safe(os.sep.join([head, '<strong>{0}</strong>'.format(tail)]))
+    return os.sep.join([head, '<strong>{0}</strong>'.format(tail)])
 
-@register.filter
+
 def format_dict(value, width=60):
     return pprint.pformat(value, width=int(width))
 
-@register.filter
+
 def highlight(value, language):
     try:
         from pygments import highlight

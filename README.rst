@@ -88,4 +88,5 @@ profiling enabled for the `hello_world`::
 ``SHOW_STACKTRACES``
    Obtaining stack traces can slow down queries significantly. You can
    turn them off by setting this option to ``False``.
-* ``HIDE_FLASK_FROM_STACKTRACES``: Hides Flask calls from the stacktrace.
+``HIDE_FLASK_FROM_STACKTRACES``
+   Hides Flask calls from the stacktrace.

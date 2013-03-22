@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='flask-debugtoolbar-mongo',
+    name='Flask-DebugToolbar-Mongo',
     version="0.1",
     description='MongoDB panel for the Flask Debug Toolbar',
     long_description=open('README.rst').read(),

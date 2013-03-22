@@ -7,7 +7,7 @@ setup(
     long_description=open('README.rst').read(),
     author='Bruno Carlin',
     author_email='bruno@bcarlin.net',
-    url='https://github.com/bcarlin/django-debug-toolbar-mongo',
+    url='https://github.com/bcarlin/flask-debugtoolbar-mongo',
     license='MIT',
     packages=find_packages(exclude=('example', )),
     include_package_data=True,
@@ -18,7 +18,7 @@ setup(
         'Flask-DebugToolbar',
     ],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 4 - Alpha',
         'Environment :: Web Environment',
         'Framework :: Flask',
         'Intended Audience :: Developers',

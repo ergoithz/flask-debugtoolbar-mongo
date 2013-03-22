@@ -81,8 +81,8 @@ profiling enabled for the `hello_world`::
 ``Flask-debugtoolbar-mongo`` accepts the following configration options::
 
   app.config['DEBUG_TB_MONGO'] = {
-    'SHOW_STACKTRACES' = True
-    'HIDE_FLASK_FROM_STACKTRACES' = True
+    'SHOW_STACKTRACES': True
+    'HIDE_FLASK_FROM_STACKTRACES': True
   }
 
 ``SHOW_STACKTRACES``

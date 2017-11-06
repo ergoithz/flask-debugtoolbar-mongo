@@ -2,7 +2,11 @@ import functools
 import time
 import inspect
 import os
-import SocketServer
+
+try:
+    import SocketServer
+except ImportError:
+    import socketserver as SocketServer
 
 import flask
 from flask import current_app
